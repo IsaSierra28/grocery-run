@@ -57,7 +57,7 @@ assets/         images and fonts
 | Name | Student ID | GitHub |
 | ---- | ---------- | ------ |
 | Isabela Sierra | 6358655 | [@IsaSierra28](https://github.com/IsaSierra28) |
-| Amina Ayad Al Halabieh | 6367025 | _pending_ |
+| Amina Ayad Al Halabieh | 6367025 | [@amoon-maker](https://github.com/amoon-maker) |
 
 ## 📝 Notes
 
