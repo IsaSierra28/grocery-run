@@ -1,56 +1,64 @@
-# Welcome to your Expo app 👋
+# 🛒 Grocery Run
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A simple shopping-list app built with **React Native** and **Expo**, written from an empty project as a group exercise for *Application Development 2 (Mobile)*.
 
-## Get started
+One screen. Add the things you need to buy, see them in a list, and never forget the milk again.
 
-1. Install dependencies
+## ✨ Features
 
-   ```bash
-   npm install
-   ```
+| Week | Feature | Status |
+| ---- | ------- | ------ |
+| 1 | App runs on the Pixel 10 emulator | ⬜ |
+| 2 | Reusable component with props, styled with `StyleSheet` + flexbox | ⬜ |
+| 3 | Controlled, validated form (name, quantity, category) with typed `useState` | ⬜ |
+| 4 | `FlatList` keyed by item `id`, reusable row component, empty state | ⬜ |
 
-2. Start the app
+> Update the status column as each feature lands: ⬜ not started · 🟨 in progress · ✅ done
 
-   ```bash
-   npx expo start
-   ```
+## 🧰 Tech stack
 
-In the output, you'll find options to open the app in a
+- [Expo](https://expo.dev) SDK 57 and [Expo Router](https://docs.expo.dev/router/introduction) (file-based routing)
+- [React Native](https://reactnative.dev) 0.86 and React 19
+- TypeScript
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🚀 Getting started
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+**Requirements:** [Node.js](https://nodejs.org) (LTS, v20+), Git, and Android Studio with a **Pixel 10** virtual device.
 
 ```bash
-npm run reset-project
+git clone https://github.com/IsaSierra28/grocery-run.git
+cd grocery-run
+npm install
+npx expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Boot the Pixel 10 from Android Studio's Device Manager, then press **`a`** in the terminal to open the app in the emulator. Keep that terminal open while you work: it is the bundler feeding your app.
 
-### Other setup steps
+### Handy commands
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+```bash
+npx expo start -c   # start with a cleared cache (fixes "app never opens")
+npx expo lint       # lint
+npx tsc --noEmit    # type-check
+```
 
-## Learn more
+## 📁 Project structure
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+src/
+  app/          screens (file-based routing), index.tsx is the shopping list
+  components/   reusable components (one per file, styles included)
+  lib/          shared types
+assets/         images and fonts
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 👥 Team
 
-## Join the community
+| Name | Student ID | GitHub |
+| ---- | ---------- | ------ |
+| Isabela Sierra | 6358655 | [@IsaSierra28](https://github.com/IsaSierra28) |
+| Amina Ayad Al Halabieh | 6367025 | _pending_ |
 
-Join our community of developers creating universal apps.
+## 📝 Notes
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This is a learning project. Part of the assignment is writing down what breaks as it breaks, so the group's struggle log lives in our shared document rather than in the code.
