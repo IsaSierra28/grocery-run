@@ -1,98 +1,221 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from "react";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import GroceryItemRow from "../components/GroceryItemRow";
+import type { GroceryItem } from "../lib/types";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+type FormErrors = {
+  name?: string;
+  quantity?: string;
+  category?: string;
+};
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
+export default function Index() {
+  const [items, setItems] = useState<GroceryItem[]>([]);
+
+  const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [category, setCategory] = useState("");
+  const [errors, setErrors] = useState<FormErrors>({});
+
+  function handleAdd() {
+    const nextErrors: FormErrors = {};
+
+    if (!name.trim()) {
+      nextErrors.name = "Item name is required";
+    }
+
+    if (!quantity.trim()) {
+      nextErrors.quantity = "Quantity is required";
+    } else {
+      const quantityNumber = Number(quantity.trim());
+
+      if (!Number.isInteger(quantityNumber) || quantityNumber < 1) {
+        nextErrors.quantity = "Enter a whole number greater than 0";
+      }
+    }
+
+    if (!category.trim()) {
+      nextErrors.category = "Category is required";
+    }
+
+    setErrors(nextErrors);
+
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    const newItem: GroceryItem = {
+      id: Date.now().toString(),
+      name: name.trim(),
+      quantity: Number(quantity.trim()),
+      category: category.trim(),
+    };
+
+    setItems((currentItems) => [newItem, ...currentItems]);
+
+    setName("");
+    setQuantity("");
+    setCategory("");
+    setErrors({});
   }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <SafeAreaView style={styles.screen} edges={["top"]}>
+      <FlatList
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        data={items}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <GroceryItemRow item={item} />}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListHeaderComponent={
+          <View style={styles.header}>
+            <Text style={styles.title}>Grocery Run</Text>
+            <Text style={styles.subtitle}>
+              Your shopping list, all in one place.
+            </Text>
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+            <View style={styles.form}>
+              <Text style={styles.formTitle}>Add an item</Text>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+              <TextInput
+                value={name}
+                onChangeText={setName}
+                placeholder="Item name"
+                style={styles.input}
+              />
+              {errors.name && <Text style={styles.error}>{errors.name}</Text>}
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+              <TextInput
+                value={quantity}
+                onChangeText={setQuantity}
+                placeholder="Quantity"
+                keyboardType="number-pad"
+                style={styles.input}
+              />
+              {errors.quantity && (
+                <Text style={styles.error}>{errors.quantity}</Text>
+              )}
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+              <TextInput
+                value={category}
+                onChangeText={setCategory}
+                placeholder="Category"
+                style={styles.input}
+              />
+              {errors.category && (
+                <Text style={styles.error}>{errors.category}</Text>
+              )}
+
+              <Button title="Add item" onPress={handleAdd} />
+            </View>
+          </View>
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyTitle}>Your list is empty</Text>
+            <Text style={styles.emptyMessage}>
+              Add your first grocery item to get started.
+            </Text>
+          </View>
+        }
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+    backgroundColor: "#f8fafc",
   },
-  safeArea: {
+
+  list: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+
+  listContent: {
+    flexGrow: 1,
+    padding: 20,
+    paddingBottom: 32,
   },
+
+  header: {
+    marginBottom: 24,
+    gap: 6,
+  },
+
   title: {
-    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: "700",
+    color: "#172554",
   },
-  code: {
-    textTransform: 'uppercase',
+
+  subtitle: {
+    fontSize: 15,
+    color: "#64748b",
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  form: {
+    marginTop: 20,
+    marginBottom: 12,
+    padding: 16,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    gap: 10,
+  },
+
+  formTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#172554",
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 15,
+    color: "#0f172a",
+  },
+
+  error: {
+    color: "#b91c1c",
+    fontSize: 13,
+  },
+
+  emptyState: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 32,
+    paddingHorizontal: 16,
+    gap: 8,
+  },
+
+  emptyTitle: {
+    fontSize: 19,
+    fontWeight: "600",
+    color: "#334155",
+  },
+
+  emptyMessage: {
+    fontSize: 14,
+    color: "#64748b",
+    textAlign: "center",
+  },
+
+  separator: {
+    height: 12,
   },
 });
