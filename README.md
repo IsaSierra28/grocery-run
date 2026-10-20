@@ -1,64 +1,95 @@
 # 🛒 Grocery Run
 
-A simple shopping-list app built with **React Native** and **Expo**, written from an empty project as a group exercise for *Application Development 2 (Mobile)*.
+A simple grocery-list mobile app built with **React Native**, **Expo**, and **TypeScript** as a group project for *Application Development 2 (Mobile)*.
 
-One screen. Add the things you need to buy, see them in a list, and never forget the milk again.
+Add the groceries you need, organize them by category, and keep track of quantities in one simple list.
 
 ## ✨ Features
 
 | Week | Feature | Status |
-| ---- | ------- | ------ |
-| 1 | App runs on the Pixel 10 emulator | ⬜ |
-| 2 | Reusable component with props, styled with `StyleSheet` + flexbox | ⬜ |
-| 3 | Controlled, validated form (name, quantity, category) with typed `useState` | ⬜ |
-| 4 | `FlatList` keyed by item `id`, reusable row component, empty state | ⬜ |
+|---|---|---|
+| 1 | App runs on the Pixel 10 emulator | 🟨 Verify on emulator |
+| 2 | Reusable component using props, `StyleSheet`, and flexbox | ✅ Done |
+| 3 | Controlled, validated form for name, quantity, and category, with typed `useState` | ✅ Done |
+| 4 | `FlatList` using each item's `id`, reusable row component, and empty state | ✅ Done |
 
-> Update the status column as each feature lands: ⬜ not started · 🟨 in progress · ✅ done
+The app is a learning project, so the feature list reflects the techniques implemented rather than a fully finished shopping application.
 
-## 🧰 Tech stack
+## 🧰 Tech Stack
 
-- [Expo](https://expo.dev) SDK 57 and [Expo Router](https://docs.expo.dev/router/introduction) (file-based routing)
-- [React Native](https://reactnative.dev) 0.86 and React 19
+- [Expo](https://expo.dev/) and [Expo Router](https://docs.expo.dev/router/introduction/)
+- [React Native](https://reactnative.dev/)
 - TypeScript
+- React hooks, including `useState`
+- `FlatList` for displaying grocery items
+- `StyleSheet` and flexbox for layout and styling
 
-## 🚀 Getting started
+## 🚀 Getting Started
 
-**Requirements:** [Node.js](https://nodejs.org) (LTS, v20+), Git, and Android Studio with a **Pixel 10** virtual device.
+### Requirements
+
+- [Node.js](https://nodejs.org/) (LTS, v20 or later)
+- Git
+- [Android Studio](https://developer.android.com/studio) with a Pixel 10 virtual device
+
+### Installation
+
+Clone the repository and install the dependencies:
 
 ```bash
 git clone https://github.com/IsaSierra28/grocery-run.git
 cd grocery-run
 npm install
+```
+
+Start the Expo development server:
+
+```bash
 npx expo start
 ```
 
-Boot the Pixel 10 from Android Studio's Device Manager, then press **`a`** in the terminal to open the app in the emulator. Keep that terminal open while you work: it is the bundler feeding your app.
+Boot the Pixel 10 virtual device using Android Studio's Device Manager. Once the development server is running, press `a` in the terminal to open the app in the Android emulator.
 
-### Handy commands
+Keep the development server running while using the app.
+
+### Handy Commands
 
 ```bash
-npx expo start -c   # start with a cleared cache (fixes "app never opens")
-npx expo lint       # lint
-npx tsc --noEmit    # type-check
+# Start Expo with a cleared cache
+npx expo start -c
+
+# Check TypeScript
+npx tsc --noEmit
 ```
 
-## 📁 Project structure
+**Note:** ESLint has not yet been configured in this repository, so linting has not been verified.
 
-```
+## 📁 Project Structure
+
+```text
 src/
-  app/          screens (file-based routing), index.tsx is the shopping list
-  components/   reusable components (one per file, styles included)
-  lib/          shared types
-assets/         images and fonts
+  app/
+    index.tsx              # Main grocery-list screen
+    _layout.tsx            # App navigation layout
+  components/
+    GroceryItemRow.tsx     # Reusable grocery-item row
+  lib/
+    types.ts               # Shared TypeScript types
+
+assets/                    # Images and fonts
 ```
 
 ## 👥 Team
 
 | Name | Student ID | GitHub |
-| ---- | ---------- | ------ |
+|---|---|---|
 | Isabela Sierra | 6358655 | [@IsaSierra28](https://github.com/IsaSierra28) |
 | Amina Ayad Al Halabieh | 6367025 | [@amoon-maker](https://github.com/amoon-maker) |
 
-## 📝 Notes
+## 📝 Project Notes
 
-This is a learning project. Part of the assignment is writing down what breaks as it breaks, so the group's struggle log lives in our shared document rather than in the code.
+This project was developed as a group learning exercise. The focus is on practicing reusable components, props, form validation, typed state, and list rendering in React Native.
+
+Grocery items are currently stored in React state, so they do not persist after the app is reloaded. Editing and deleting items are not currently implemented.
+
+As part of the assignment, the group also documents development challenges, what was tried, and how each issue was resolved in the shared reflection document.
